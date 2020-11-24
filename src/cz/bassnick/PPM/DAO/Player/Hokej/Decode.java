@@ -702,5 +702,120 @@ public class Decode {
         }
         return true;
     }
+    public static boolean statsGoalie(String data) {
+        StatsGoalieInfo playerInfo = new StatsGoalieInfo();
+        try {
+            /*
+                split \n \r
+                    [0] header
+                    [>0] data
+                        split \t
+                                [0]:
+                                [0]=[0].before(" Počet dní zranění: ...")
+                                    split " "
+                                        < (last-1)=Stat
+                                        (last-1)=Krestni jmeno
+                                        last=Prijmeni
+                                [1]=GP  = Pocet zapasu
+                                [2]=TOI = Time on Ice
+                                [3]=SA  = Shots Allowed
+                                [4]=GA  = Goals Allowed
+                                [5]=GAA = Goals Allowed Average
+                                [6]=Sv% = Úspěšnost zákroků
+                                [7]=SO  = Shot outs
+                                [8]=A   = Asistence
+                                [9]=TP  = Kanadské body
+                                [10]=Hv = Hvězda zápasu
+                                [11]=HK = Hvězda kola
+        */
 
+
+//                split \n \r
+            data = data.replaceAll("\r", "");
+            String[] lines = data.split("\n");
+//                    [0] header
+//                    [>0] data
+            for (int i = 1; i < lines.length; i++) {
+                playerInfo = new StatsGoalieInfo();
+//            split \t
+                String[] items = lines[i].split("\t");
+                //[0]:
+                //                [0]=[0].before(" Počet dní zranění: ...")
+                int illIx = items[0].indexOf(" Počet dní zranění:");
+                if (illIx > 0) {
+                    int daysIx = items[0].indexOf(":");
+                    String[] temp = items[0].substring(daysIx + 1).trim().split(" ");
+                    playerInfo.setDaysToBeIll(Integer.parseInt(temp[0].trim()));
+                    items[0] = items[0].substring(0, illIx);
+                } else {
+                    playerInfo.setDaysToBeIll(0);
+                }
+
+//            split " "
+                String[] infos = items[0].split(" ");
+                int len = infos.length;
+//                    < (last-1)=Stat
+                for (int statIx = 0; statIx < len - 2; statIx++) {
+                    if (statIx == 0)
+                        playerInfo.setState(infos[statIx]);
+                    else {
+                        playerInfo.setState(playerInfo.getState() + " " + infos[statIx]);
+                    }
+                }
+                // (last-1)=Krestni jmeno
+                playerInfo.setFirstname(infos[len - 2]);
+                // last=Prijmeni
+                playerInfo.setLastname(infos[len - 1]);
+
+
+//                    [1]=GP = Pocet zapasu
+                playerInfo.setGP(Integer.parseInt(items[1].trim()));
+//                    [2]=TOI = Time on Ice
+                playerInfo.setTOI(Integer.parseInt(items[2].trim()));
+//                    [3]=SA  = Shots Allowed
+                playerInfo.setSA(Integer.parseInt(items[3].trim()));
+//                    [4]=GA  = Goals Allowed
+                playerInfo.setGA(Integer.parseInt(items[4].trim()));
+//                    [5]=GAA = Goals Allowed Average
+                playerInfo.setGAA(Float.parseFloat(items[5].trim()));
+//                    [6]=Sv% = Úspěšnost zákroků
+                playerInfo.setSvPercentage(Float.parseFloat(items[6].trim()));
+//                    [7]=SO  = Shot outs
+                playerInfo.setSO(Integer.parseInt(items[7].trim()));
+//                    [8]=A   = Asistence
+                playerInfo.setA(Integer.parseInt(items[8].trim()));
+//                    [9]=TP  = Kanadské body
+                playerInfo.setTP(Integer.parseInt(items[9].trim()));
+//                    [10]=Hv = Hvězda zápasu
+                playerInfo.setHv(Integer.parseInt(items[10].trim()));
+//                    [11]=HK = Hvězda kola
+                playerInfo.setHK(Integer.parseInt(items[11].trim()));
+
+                String name = playerInfo.getFirstname() + " " + playerInfo.getLastname();
+                boolean found = false;
+
+                for (int iPlayer = 0; iPlayer < Players.players.size(); iPlayer++) {
+                    if (name.equals(Players.players.get(iPlayer).getName())) {
+                        Player player = Players.players.get(iPlayer);
+                        player.setStatGoalie(playerInfo);
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    Player player = new Player();
+                    player.setName(name);
+                    player.setState(playerInfo.getState());
+                    player.setStatGoalie(playerInfo);
+                    player.setDayToBeIll(playerInfo.getDaysToBeIll());
+                    Players.players.add(player);
+
+                }
+            }
+        } catch (
+                Throwable t) {
+            System.err.println(t.getMessage());
+            return false;
+        }
+        return true;
+    }
 }

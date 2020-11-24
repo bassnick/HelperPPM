@@ -18,13 +18,14 @@ public class HokejScreen {
     private JButton btnDeleteInputText;
     private JButton btnSave;
     private JButton btnStatsFieldInfo;
+    private JButton btnStatsGoalieInfo;
     final JScrollPane scroll;
 
     public HokejScreen() {
         inputTextArea = new JTextArea(5,20);
         scroll = new JScrollPane(inputTextArea);
         jPanel = new JPanel(new GridLayout(
-                8,1));
+                9,1));
 
         jPanel.add(scroll);
         jPanel.add(btnDeleteInputText);
@@ -33,6 +34,7 @@ public class HokejScreen {
         jPanel.add(btnLoadAgreementInfo);
         jPanel.add(btnLoadTrainingInfo);
         jPanel.add(btnStatsFieldInfo);
+        jPanel.add(btnStatsGoalieInfo);
         jPanel.add(btnSave);
 
         btnLoadAgreementInfo.addActionListener(new ActionListener() {
@@ -77,6 +79,11 @@ public class HokejScreen {
             public void actionPerformed(ActionEvent e) { Decode.statsField(inputTextArea.getText()); }
         });
 
-    }
+        btnStatsGoalieInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {  Decode.statsGoalie(inputTextArea.getText());
 
+            }
+        });
+    }
 }

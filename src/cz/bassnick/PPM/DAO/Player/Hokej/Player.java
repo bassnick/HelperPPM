@@ -10,6 +10,7 @@ public class Player {
     private BasicPlayerInfo basic;
     private TrainingPlayerInfo training;
     private StatsFieldInfo statField;
+    private StatsGoalieInfo statGoalie;
 
     public String getName() {
         return name;
@@ -75,4 +76,7 @@ public class Player {
 
     public void setStatField(StatsFieldInfo statField) { this.statField = statField; }
 
+    public StatsGoalieInfo getStatGoalie() {  return statGoalie;  }
+
+    public void setStatGoalie(StatsGoalieInfo statGoalie) {  this.statGoalie = statGoalie;  }
 }
