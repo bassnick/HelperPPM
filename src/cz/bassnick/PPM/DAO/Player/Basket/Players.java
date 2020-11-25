@@ -8,6 +8,7 @@ import cz.bassnick.PPM.DAO.Player.Basket.TrainingPlayerInfo;
 import cz.bassnick.PPM.Helpers;
 import cz.bassnick.PPM.Tools.Var;
 
+import javax.lang.model.element.VariableElement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -21,7 +22,6 @@ public class Players {
     private static boolean isBasic;
     private static boolean isTraining;
     private static boolean isOverview;
-    private static boolean isStat;
     private static String exportToCSV() {
         StringBuffer buff = new StringBuffer();
 
@@ -43,6 +43,8 @@ public class Players {
             TrainingPlayerInfo tpi = new TrainingPlayerInfo();
             BasicPlayerInfo bpi = new BasicPlayerInfo();
             OverviewPlayerInfo opi = new OverviewPlayerInfo();
+            Stats40PlayerInfo spi40 = new Stats40PlayerInfo();
+            StatsGamePlayerInfo spiGame = new StatsGamePlayerInfo();
 
             buff = buff.append(player.getName()).append(Var.CSV_ITEMS)
                     .append(player.getState()).append(Var.CSV_ITEMS)
@@ -161,15 +163,114 @@ public class Players {
                     .append(Helpers.round(zksg/mr*100,0)).append(Var.CSV_ITEMS)
                     .append(Helpers.round(zkpf/mr*100,0)).append(Var.CSV_ITEMS)
                     .append(Helpers.round(zksf/mr*100,0)).append(Var.CSV_ITEMS)
-                    .append(Helpers.round((100f * mr / averageMR)-100,2));
+                    .append(Helpers.round((100f * mr / averageMR)-100,2)).append(Var.CSV_ITEMS);
 
-
-/*
-            if (null != player.getStat()) {
-                isStat = true;
-               // append getStat to CSV
+            if (null != player.getStatsGame()) {
+                spiGame = player.getStatsGame();
+                buff = buff
+                        .append(spiGame.getGP()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getMin()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getFGM2()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getFGA2()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getFG2Percent()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getFGM3()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getFGA3()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getFG3Percent()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getFTM()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getFTA()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getFTPercent()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getOReb()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getDReb()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getReb()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getA()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getTO()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getST()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getBlk()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getPF()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getPts()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getPlusMinus()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getHv()).append(Var.CSV_ITEMS)
+                        .append(spiGame.getHK()).append(Var.CSV_ITEMS);
+                // append getStat to CSV
+            } else  {
+                buff = buff
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                ;
             }
-*/
+
+
+            if (null != player.getStats40()) {
+               spi40 = player.getStats40();
+                buff = buff
+                        .append(spi40.getGP()).append(Var.CSV_ITEMS)
+                        .append(spi40.getFGM2()).append(Var.CSV_ITEMS)
+                        .append(spi40.getFGA2()).append(Var.CSV_ITEMS)
+                        .append(spi40.getFG2Percent()).append(Var.CSV_ITEMS)
+                        .append(spi40.getFGM3()).append(Var.CSV_ITEMS)
+                        .append(spi40.getFGA3()).append(Var.CSV_ITEMS)
+                        .append(spi40.getFG3Percent()).append(Var.CSV_ITEMS)
+                        .append(spi40.getFTM()).append(Var.CSV_ITEMS)
+                        .append(spi40.getFTA()).append(Var.CSV_ITEMS)
+                        .append(spi40.getFTPercent()).append(Var.CSV_ITEMS)
+                        .append(spi40.getOReb()).append(Var.CSV_ITEMS)
+                        .append(spi40.getDReb()).append(Var.CSV_ITEMS)
+                        .append(spi40.getReb()).append(Var.CSV_ITEMS)
+                        .append(spi40.getA()).append(Var.CSV_ITEMS)
+                        .append(spi40.getTO()).append(Var.CSV_ITEMS)
+                        .append(spi40.getST()).append(Var.CSV_ITEMS)
+                        .append(spi40.getBlk()).append(Var.CSV_ITEMS)
+                        .append(spi40.getPF()).append(Var.CSV_ITEMS)
+                        .append(spi40.getPts()).append(Var.CSV_ITEMS)
+                        .append(spi40.getPlusMinus()).append(Var.CSV_ITEMS)
+                        .append(spi40.getHv()).append(Var.CSV_ITEMS)
+                        .append(spi40.getHK());
+                // append getStat to CSV
+            } else  {
+                buff = buff
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS)
+                        .append(Var.CSV_ITEMS);
+           }
             buff.append(Var.CSV_LINES);
         }
         StringBuffer header = new StringBuffer();
@@ -256,7 +357,60 @@ public class Players {
                 .append("SG% MR").append(Var.CSV_ITEMS)
                 .append("PF% MR").append(Var.CSV_ITEMS)
                 .append("SF% MR").append(Var.CSV_ITEMS)
-                .append("MR Above Average");
+                .append("MR Above Average").append(Var.CSV_ITEMS);
+
+        header = header
+                .append("GP").append(Var.CSV_ITEMS)
+                .append("Min").append(Var.CSV_ITEMS)
+                .append("2FGM").append(Var.CSV_ITEMS)
+                .append("2FGA").append(Var.CSV_ITEMS)
+                .append("2FG%").append(Var.CSV_ITEMS)
+                .append("3FGM").append(Var.CSV_ITEMS)
+                .append("3FGA").append(Var.CSV_ITEMS)
+                .append("3FG%").append(Var.CSV_ITEMS)
+                .append("FTM").append(Var.CSV_ITEMS)
+                .append("FTA").append(Var.CSV_ITEMS)
+                .append("FT%").append(Var.CSV_ITEMS)
+                .append("OReb").append(Var.CSV_ITEMS)
+                .append("DReb").append(Var.CSV_ITEMS)
+                .append("Reb").append(Var.CSV_ITEMS)
+                .append("A").append(Var.CSV_ITEMS)
+                .append("TO").append(Var.CSV_ITEMS)
+                .append("ST").append(Var.CSV_ITEMS)
+                .append("Blk").append(Var.CSV_ITEMS)
+                .append("PF").append(Var.CSV_ITEMS)
+                .append("Pts").append(Var.CSV_ITEMS)
+                .append("+/-").append(Var.CSV_ITEMS)
+                .append("Hv").append(Var.CSV_ITEMS)
+                .append("HK").append(Var.CSV_ITEMS);
+
+
+        header = header
+                .append("GP").append(Var.CSV_ITEMS)
+                .append("2FGM/40min").append(Var.CSV_ITEMS)
+                .append("2FGA/40min").append(Var.CSV_ITEMS)
+                .append("2FG%/40min").append(Var.CSV_ITEMS)
+                .append("3FGM/40min").append(Var.CSV_ITEMS)
+                .append("3FGA/40min").append(Var.CSV_ITEMS)
+                .append("3FG%/40min").append(Var.CSV_ITEMS)
+                .append("FTM/40min").append(Var.CSV_ITEMS)
+                .append("FTA/40min").append(Var.CSV_ITEMS)
+                .append("FT%/40min").append(Var.CSV_ITEMS)
+                .append("OReb/40min").append(Var.CSV_ITEMS)
+                .append("DReb/40min").append(Var.CSV_ITEMS)
+                .append("Reb/40min").append(Var.CSV_ITEMS)
+                .append("A/40min").append(Var.CSV_ITEMS)
+                .append("TO/40min").append(Var.CSV_ITEMS)
+                .append("ST/40min").append(Var.CSV_ITEMS)
+                .append("Blk/40min").append(Var.CSV_ITEMS)
+                .append("PF/40min").append(Var.CSV_ITEMS)
+                .append("Pts/40min").append(Var.CSV_ITEMS)
+                .append("+/-/40min").append(Var.CSV_ITEMS)
+                .append("Hv/40min").append(Var.CSV_ITEMS)
+                .append("HK/40min");
+        // append getStat to CSV
+
+
 
         String headerAndData = header.append(Var.CSV_LINES).append(buff).toString();
         return headerAndData;

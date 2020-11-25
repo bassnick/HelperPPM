@@ -17,12 +17,14 @@ public class BasketScreen {
     private JButton btnSave;
     protected JPanel jPanel;
     private JButton btnOverview;
+    private JButton btnStats40;
+    private JButton btnStatsGame;
     final JScrollPane scroll;
 
     public BasketScreen() {
         textArea1 = new JTextArea(5, 20);
         scroll = new JScrollPane(textArea1);
-        jPanel = new JPanel(new GridLayout(7, 1));
+        jPanel = new JPanel(new GridLayout(9, 1));
 
         jPanel.add(scroll);
         jPanel.add(btnDelete);
@@ -30,6 +32,8 @@ public class BasketScreen {
         jPanel.add(btnBasic);
         jPanel.add(btnAgreement);
         jPanel.add(btnTraining);
+        jPanel.add(btnStatsGame);
+        jPanel.add(btnStats40);
         jPanel.add(btnSave);
 
         btnDelete.addActionListener(new ActionListener() {
@@ -61,6 +65,14 @@ public class BasketScreen {
         btnOverview.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { Decode.overview(textArea1.getText()); }
+        });
+        btnStats40.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { Decode.stats40(textArea1.getText()); }
+        });
+        btnStatsGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { Decode.statsGame(textArea1.getText()); }
         });
     }
 }

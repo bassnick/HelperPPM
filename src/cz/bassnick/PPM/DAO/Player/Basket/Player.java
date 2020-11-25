@@ -10,7 +10,8 @@ public class Player {
     private BasicPlayerInfo basic;
     private TrainingPlayerInfo training;
     private OverviewPlayerInfo overview;
- //   private Stats stat;
+    private Stats40PlayerInfo stats40;
+    private StatsGamePlayerInfo statsGame;
  //   private PlayerBindedInfoStats bindedAll;
 
     public String getName() {
@@ -69,21 +70,11 @@ public class Player {
 
     public void setOverview(OverviewPlayerInfo overview) { this.overview = overview; }
 
-    /*  public Stats getStat() {
-        return stat;
-    }
+    public Stats40PlayerInfo getStats40() { return stats40; }
 
-    public void setStat(Stats stat) {
-        this.stat = stat;
-    }
-*/
-  /*  public PlayerBindedInfoStats getBindedAll() {
-        return bindedAll;
-    }
+    public void setStats40(Stats40PlayerInfo stats40) { this.stats40 = stats40; }
 
-    public void setBindedAll(PlayerBindedInfoStats bindedAll) {
-        this.bindedAll = bindedAll;
-    }
-    */
+    public StatsGamePlayerInfo getStatsGame() { return statsGame; }
 
+    public void setStatsGame(StatsGamePlayerInfo statsGame) { this.statsGame = statsGame; }
 }

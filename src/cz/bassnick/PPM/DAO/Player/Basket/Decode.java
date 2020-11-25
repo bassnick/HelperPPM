@@ -160,7 +160,6 @@ public class Decode {
         return true;
     }
 
-
     public static boolean basic(String data) {
         try {
             /*
@@ -290,7 +289,6 @@ public class Decode {
         }
         return true;
     }
-
 
     public static boolean training(String data) {
         TrainingPlayerInfo playerInfo = new TrainingPlayerInfo();
@@ -568,6 +566,243 @@ public class Decode {
         return true;
     }
 
+    public static boolean statsGame(String data) {
+        StatsGamePlayerInfo playerInfo = new StatsGamePlayerInfo();
+        try {
+            //split \n \r
+            data = data.replaceAll("\r", "");
+            String[] lines = data.split("\n");
+            //[0] header
+            //[>0] data
+            for (int i = 1; i < lines.length; i++) {
+                playerInfo = new StatsGamePlayerInfo();
+                String[] items = lines[i].split("\t");
+
+//                        begins on \t or digit?
+                //if (lines[i] != null && (!lines[i].startsWith("\t"))) {
+                //   [0]=[0].before(" Počet dní zranění: ...")
+                int illIx = items[0].indexOf(" Počet dní zranění:");
+//              split " "
+//                  (last-1)=Krestni jmeno
+//                  last=Prijmeni
+                if (illIx > 0) {
+                    int daysIx = items[0].indexOf(":");
+                    String[] temp = items[0].substring(daysIx + 1).trim().split(" ");
+                    playerInfo.setDaysToBeIll(Integer.parseInt(temp[0].trim()));
+                    items[0] = items[0].substring(0, illIx);
+                } else {
+                    playerInfo.setDaysToBeIll(0);
+                }
+
+//              split " "
+                String[] infos = items[0].split(" ");
+                int len = infos.length;
+//                                        < (last-1)=Stat
+                for (int statIx = 0; statIx < len - 2; statIx++) {
+                    if (statIx == 0)
+                        playerInfo.setState(infos[statIx]);
+                    else {
+                        playerInfo.setState(playerInfo.getState() + " " + infos[statIx]);
+                    }
+                }
+                //                                        (last-1)=Krestni jmeno
+                playerInfo.setFirstname(infos[len - 2]);
+//                                last=Prijmeni
+                playerInfo.setLastname(infos[len - 1]);
+//                                [1]=GP
+                playerInfo.setGP(Integer.parseInt(items[1].trim()));
+//                                [2]=Min
+                playerInfo.setMin(Float.parseFloat(items[2].trim()));
+//                                [3]=2FGM
+                playerInfo.setFGM2(Float.parseFloat(items[3].trim()));
+//                                [4]=2FGA
+                playerInfo.setFGA2(Float.parseFloat(items[4].trim()));
+//                                [5]=2FG%
+                playerInfo.setFG2Percent(Float.parseFloat(items[5].trim()));
+//                                [6]=3FGM
+                playerInfo.setFGM3(Float.parseFloat(items[6].trim()));
+//                                [7]=3FGA
+                playerInfo.setFGA3(Float.parseFloat(items[7].trim()));
+//                                [8]=3FG%
+                playerInfo.setFG3Percent(Float.parseFloat(items[8].trim()));
+//                                [9]=FTM
+                playerInfo.setFTM(Float.parseFloat(items[9].trim()));
+//                                [10]=FTA
+                playerInfo.setFTA(Float.parseFloat(items[10].trim()));
+//                                [11]=FT%
+                playerInfo.setFTPercent(Float.parseFloat(items[11].trim()));
+//                                [12]=OReb
+                playerInfo.setOReb(Float.parseFloat(items[12].trim()));
+//                                [13]=DReb
+                playerInfo.setDReb(Float.parseFloat(items[13].trim()));
+//                                [14]=Reb
+                playerInfo.setReb(Float.parseFloat(items[14].trim()));
+//                                [15]=A
+                playerInfo.setA(Float.parseFloat(items[15].trim()));
+//                                [16]=TO
+                playerInfo.setTO(Float.parseFloat(items[16].trim()));
+//                                [17]=ST
+                playerInfo.setST(Float.parseFloat(items[17].trim()));
+//                                [18]=Blk
+                playerInfo.setBlk(Float.parseFloat(items[18].trim()));
+//                                [19]=PF
+                playerInfo.setPF(Float.parseFloat(items[19].trim()));
+//                                [20]=Pts
+                playerInfo.setPts(Float.parseFloat(items[20].trim()));
+//                                [21]=+/-
+                playerInfo.setPlusMinus(Float.parseFloat(items[21].trim()));
+//                                [22]=Hv
+                playerInfo.setHv(Integer.parseInt(items[22].trim()));
+//                                [23]=HK
+                playerInfo.setHK(Integer.parseInt(items[23].trim()));
+                String name = playerInfo.getFirstname() + " " + playerInfo.getLastname();
+                boolean found = false;
+
+                for (int iPlayer = 0; iPlayer < Players.players.size(); iPlayer++) {
+                    if (name.equals(Players.players.get(iPlayer).getName())) {
+                        Player player = Players.players.get(iPlayer);
+                        player.setStatsGame(playerInfo);
+                        player.setName(name);
+                        player.setState(playerInfo.getState());
+                        player.setDayToBeIll(playerInfo.getDaysToBeIll());
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    Player player = new Player();
+                    player.setName(name);
+                    player.setState(playerInfo.getState());
+                    player.setStatsGame(playerInfo);
+                    player.setDayToBeIll(playerInfo.getDaysToBeIll());
+                    Players.players.add(player);
+
+                }
+            }
+        } catch (
+                Throwable t) {
+            System.err.println(t.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean stats40(String data) {
+        Stats40PlayerInfo playerInfo = new Stats40PlayerInfo();
+        try {
+            //split \n \r
+            data = data.replaceAll("\r", "");
+            String[] lines = data.split("\n");
+            //[0] header
+            //[>0] data
+            for (int i = 1; i < lines.length; i++) {
+                playerInfo = new Stats40PlayerInfo();
+                String[] items = lines[i].split("\t");
+
+//                        begins on \t or digit?
+                //if (lines[i] != null && (!lines[i].startsWith("\t"))) {
+                //   [0]=[0].before(" Počet dní zranění: ...")
+                int illIx = items[0].indexOf(" Počet dní zranění:");
+//              split " "
+//                  (last-1)=Krestni jmeno
+//                  last=Prijmeni
+                if (illIx > 0) {
+                    int daysIx = items[0].indexOf(":");
+                    String[] temp = items[0].substring(daysIx + 1).trim().split(" ");
+                    playerInfo.setDaysToBeIll(Integer.parseInt(temp[0].trim()));
+                    items[0] = items[0].substring(0, illIx);
+                } else {
+                    playerInfo.setDaysToBeIll(0);
+                }
+
+//              split " "
+                String[] infos = items[0].split(" ");
+                int len = infos.length;
+//                                        < (last-1)=Stat
+                for (int statIx = 0; statIx < len - 2; statIx++) {
+                    if (statIx == 0)
+                        playerInfo.setState(infos[statIx]);
+                    else {
+                        playerInfo.setState(playerInfo.getState() + " " + infos[statIx]);
+                    }
+                }
+                //                                        (last-1)=Krestni jmeno
+                playerInfo.setFirstname(infos[len - 2]);
+//                                last=Prijmeni
+                playerInfo.setLastname(infos[len - 1]);
+//                                [1]=GP
+                playerInfo.setGP(Integer.parseInt(items[1].trim()));
+//                                [2]=2FGM
+                playerInfo.setFGM2(Float.parseFloat(items[2].trim()));
+//                                [3]=2FGA
+                playerInfo.setFGA2(Float.parseFloat(items[3].trim()));
+//                                [4]=2FG%
+                playerInfo.setFG2Percent(Float.parseFloat(items[4].trim()));
+//                                [5]=3FGM
+                playerInfo.setFGM3(Float.parseFloat(items[5].trim()));
+//                                [6]=3FGA
+                playerInfo.setFGA3(Float.parseFloat(items[6].trim()));
+//                                [7]=3FG%
+                playerInfo.setFG3Percent(Float.parseFloat(items[7].trim()));
+//                                [8]=FTM
+                playerInfo.setFTM(Float.parseFloat(items[8].trim()));
+//                                [9]=FTA
+                    playerInfo.setFTA(Float.parseFloat(items[9].trim()));
+//                                [10]=FT%
+                    playerInfo.setFTPercent(Float.parseFloat(items[10].trim()));
+//                                [11]=OReb
+                    playerInfo.setOReb(Float.parseFloat(items[11].trim()));
+//                                [12]=DReb
+                    playerInfo.setDReb(Float.parseFloat(items[12].trim()));
+//                                [13]=Reb
+                    playerInfo.setReb(Float.parseFloat(items[13].trim()));
+//                                [14]=A
+                    playerInfo.setA(Float.parseFloat(items[14].trim()));
+//                                [15]=TO
+                playerInfo.setTO(Float.parseFloat(items[15].trim()));
+//                                [16]=ST
+                playerInfo.setST(Float.parseFloat(items[16].trim()));
+//                                [17]=Blk
+                playerInfo.setBlk(Float.parseFloat(items[17].trim()));
+//                                [18]=PF
+                playerInfo.setPF(Float.parseFloat(items[18].trim()));
+//                                [19]=Pts
+                playerInfo.setPts(Float.parseFloat(items[19].trim()));
+//                                [20]=+/-
+                playerInfo.setPlusMinus(Float.parseFloat(items[20].trim()));
+//                                [21]=Hv
+                playerInfo.setHv(Integer.parseInt(items[21].trim()));
+//                                [22]=HK
+                playerInfo.setHK(Integer.parseInt(items[22].trim()));
+                String name = playerInfo.getFirstname() + " " + playerInfo.getLastname();
+                boolean found = false;
+
+                for (int iPlayer = 0; iPlayer < Players.players.size(); iPlayer++) {
+                    if (name.equals(Players.players.get(iPlayer).getName())) {
+                        Player player = Players.players.get(iPlayer);
+                        player.setStats40(playerInfo);
+                        player.setName(name);
+                        player.setState(playerInfo.getState());
+                        player.setDayToBeIll(playerInfo.getDaysToBeIll());
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    Player player = new Player();
+                    player.setName(name);
+                    player.setState(playerInfo.getState());
+                    player.setStats40(playerInfo);
+                    player.setDayToBeIll(playerInfo.getDaysToBeIll());
+                    Players.players.add(player);
+
+                }
+            }
+        } catch (
+                Throwable t) {
+            System.err.println(t.getMessage());
+            return false;
+        }
+        return true;
+    }
 
 
 }
