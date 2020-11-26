@@ -10,7 +10,8 @@ public class Player {
     private BasicPlayerInfo basic;
     private TrainingPlayerInfo training;
     private OverviewPlayerInfo overview;
- //   private Stats stat;
+    private StatsPlayerInfo fieldStats;
+    private StatsPlayerGoalieInfo goalieStats;
  //   private PlayerBindedInfoStats bindedAll;
 
     public String getName() {
@@ -69,15 +70,19 @@ public class Player {
 
     public void setOverview(OverviewPlayerInfo overview) { this.overview = overview; }
 
-    /*  public Stats getStat() {
-        return stat;
+    public StatsPlayerInfo getFieldStats() { return fieldStats; }
+
+    public void setFieldStats(StatsPlayerInfo fieldStats) { this.fieldStats = fieldStats; }
+
+    public StatsPlayerGoalieInfo getGoalieStats() {
+        return goalieStats;
     }
 
-    public void setStat(Stats stat) {
-        this.stat = stat;
+    public void setGoalieStats(StatsPlayerGoalieInfo goalieStats) {
+        this.goalieStats = goalieStats;
     }
-*/
-  /*  public PlayerBindedInfoStats getBindedAll() {
+
+    /*  public PlayerBindedInfoStats getBindedAll() {
         return bindedAll;
     }
 

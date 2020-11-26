@@ -17,13 +17,15 @@ public class FotbalScreen {
     private JButton btnAgreement;
     private JTextArea textArea1;
     private JButton btnOverview;
+    private JButton btnStatsField;
+    private JButton btnStatsGoalie;
     final JScrollPane scroll;
 
     public FotbalScreen() {
 
-        textArea1 = new JTextArea(6,20);
+        textArea1 = new JTextArea(5,20);
         scroll = new JScrollPane(textArea1);
-        jPanel = new JPanel(new GridLayout(7,1));
+        jPanel = new JPanel(new GridLayout(9,1));
         //scrolll.add(movieinfo);
         //pangui.add(movieinfo);
 
@@ -33,6 +35,8 @@ public class FotbalScreen {
         jPanel.add(btnBasic);
         jPanel.add(btnAgreement);
         jPanel.add(btnTraining);
+        jPanel.add(btnStatsField);
+        jPanel.add(btnStatsGoalie);
         jPanel.add(btnSave);
 
 
@@ -68,6 +72,14 @@ public class FotbalScreen {
         btnOverview.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { Decode.overview(textArea1.getText()); }
+        });
+        btnStatsField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { Decode.statsField(textArea1.getText());}
+        });
+        btnStatsGoalie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { Decode.statsGoalie(textArea1.getText()); }
         });
     }
 }
