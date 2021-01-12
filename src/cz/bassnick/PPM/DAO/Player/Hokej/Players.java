@@ -26,9 +26,9 @@ public class Players {
         for (Player player: players) {
             TrainingPlayerInfo tp = player.getTraining();
             float zkg = (tp.getBra()*2.5f + tp.getNah()*1.25f + tp.getTec()*1.25f)/5f;
-            float zkd = (tp.getObr()*2.0f + tp.getNah()*1.0f + tp.getAgr()*1.0f + tp.getStr() + 1.0f)/5f;
-            float zkw = (tp.getUto()*2.0f + tp.getTec()*1.0f + tp.getAgr()*1.0f + tp.getStr() + 1.0f)/5f;
-            float zkc = (tp.getUto()*2.0f + tp.getNah()*1.0f + tp.getTec()*1.0f + tp.getStr() + 1.0f)/5f;
+            float zkd = (tp.getObr()*2.0f + tp.getNah()*1.0f + tp.getAgr()*1.0f + tp.getStr())/5f;
+            float zkw = (tp.getUto()*2.0f + tp.getTec()*1.0f + tp.getAgr()*1.0f + tp.getStr())/5f;
+            float zkc = (tp.getUto()*2.0f + tp.getNah()*1.0f + tp.getTec()*1.0f + tp.getStr())/5f;
             float mr = Math.max(Math.max(Math.max(zkg,zkd), zkw), zkc);
             sumMR += mr;
         }
@@ -124,9 +124,9 @@ public class Players {
             }
 
             float zkg = (tpi.getBra()*2.5f + tpi.getNah()*1.25f + tpi.getTec()*1.25f)/5f;
-            float zkd = (tpi.getObr()*2.0f + tpi.getNah()*1.0f + tpi.getAgr()*1.0f + tpi.getStr() + 1.0f)/5f;
-            float zkw = (tpi.getUto()*2.0f + tpi.getTec()*1.0f + tpi.getAgr()*1.0f + tpi.getStr() + 1.0f)/5f;
-            float zkc = (tpi.getUto()*2.0f + tpi.getNah()*1.0f + tpi.getTec()*1.0f + tpi.getStr() + 1.0f)/5f;
+            float zkd = (tpi.getObr()*2.0f + tpi.getNah()*1.0f + tpi.getAgr()*1.0f + tpi.getStr())/5f;
+            float zkw = (tpi.getUto()*2.0f + tpi.getTec()*1.0f + tpi.getAgr()*1.0f + tpi.getStr())/5f;
+            float zkc = (tpi.getUto()*2.0f + tpi.getNah()*1.0f + tpi.getTec()*1.0f + tpi.getStr())/5f;
             float mr = Math.max(Math.max(Math.max(zkg,zkd), zkw), zkc);
             float effective = (api.getDaySalary() * 100 / mr) / 100f;
             String ideal = "";

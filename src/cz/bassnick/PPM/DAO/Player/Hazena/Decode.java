@@ -1,4 +1,14 @@
-package cz.bassnick.PPM.DAO.Player.Hokej;
+package cz.bassnick.PPM.DAO.Player.Hazena;
+
+import cz.bassnick.PPM.DAO.Player.Hazena.AgreementPlayerInfo;
+import cz.bassnick.PPM.DAO.Player.Hazena.BasicPlayerInfo;
+import cz.bassnick.PPM.DAO.Player.Hazena.OverviewPlayerInfo;
+import cz.bassnick.PPM.DAO.Player.Hazena.Player;
+import cz.bassnick.PPM.DAO.Player.Hazena.Players;
+import cz.bassnick.PPM.DAO.Player.Hazena.StatsFieldInfo;
+import cz.bassnick.PPM.DAO.Player.Hazena.TrainingPlayerInfo;
+import cz.bassnick.PPM.DAO.Player.Hazena.*;
+import cz.bassnick.PPM.DAO.Player.Hazena.StatsPlayerGoalieInfo;
 
 public class Decode {
     public static boolean overview(String data) {
@@ -8,7 +18,7 @@ public class Decode {
             data = data.replaceAll("\r", "");
             String[] lines = data.split("\n");
             for (int i = 1; i < lines.length; i++) {
-                OverviewPlayerInfo playerInfo = new OverviewPlayerInfo();
+                cz.bassnick.PPM.DAO.Player.Hazena.OverviewPlayerInfo playerInfo = new OverviewPlayerInfo();
                 String[] items = lines[i].split("\t");
 //                            [1]:
                 int illIx = items[1].indexOf(" Počet dní zranění:");
@@ -29,19 +39,19 @@ public class Decode {
                 playerInfo.setMaxEnergy(Integer.parseInt(e[1].replace("/","").trim()));
                 String name = playerInfo.getFirstname() + " " + playerInfo.getLastname();
                 boolean found = false;
-                for (int iPlayer = 0; iPlayer < Players.players.size(); iPlayer++) {
-                    if (name.equals(Players.players.get(iPlayer).getName())) {
-                        Player player = Players.players.get(iPlayer);
+                for (int iPlayer = 0; iPlayer < cz.bassnick.PPM.DAO.Player.Hazena.Players.players.size(); iPlayer++) {
+                    if (name.equals(cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer).getName())) {
+                        cz.bassnick.PPM.DAO.Player.Hazena.Player player = cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer);
                         player.setOverview(playerInfo);
                         player.setName(name);
                         found = true;
                     }
                 }
                 if (!found) {
-                    Player player = new Player();
+                    cz.bassnick.PPM.DAO.Player.Hazena.Player player = new cz.bassnick.PPM.DAO.Player.Hazena.Player();
                     player.setName(name);
                     player.setOverview(playerInfo);
-                    Players.players.add(player);
+                    cz.bassnick.PPM.DAO.Player.Hazena.Players.players.add(player);
                 }
             }
         }
@@ -79,7 +89,7 @@ public class Decode {
             String[] lines = data.split("\n");
 //                    [0] header
 //                    [>0] data
-            AgreementPlayerInfo playerInfo = new AgreementPlayerInfo();
+            cz.bassnick.PPM.DAO.Player.Hazena.AgreementPlayerInfo playerInfo = new cz.bassnick.PPM.DAO.Player.Hazena.AgreementPlayerInfo();
             for (int i = 1; i < lines.length; i++) {
 //                        every odd =
                 if (i % 2 == 1) {
@@ -128,9 +138,9 @@ public class Decode {
                     playerInfo.setAutomaticProlongedAgreement(lines[i]);
                     String name = playerInfo.getFirstname() + " " + playerInfo.getLastname();
                     boolean found = false;
-                    for (int iPlayer = 0; iPlayer < Players.players.size(); iPlayer++) {
-                        if (name.equals(Players.players.get(iPlayer).getName())) {
-                            Player player = Players.players.get(iPlayer);
+                    for (int iPlayer = 0; iPlayer < cz.bassnick.PPM.DAO.Player.Hazena.Players.players.size(); iPlayer++) {
+                        if (name.equals(cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer).getName())) {
+                            cz.bassnick.PPM.DAO.Player.Hazena.Player player = cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer);
                             player.setAgreement(playerInfo);
                             player.setName(name);
                             player.setState(playerInfo.getState());
@@ -140,13 +150,13 @@ public class Decode {
                         }
                     }
                     if (!found) {
-                        Player player = new Player();
+                        cz.bassnick.PPM.DAO.Player.Hazena.Player player = new cz.bassnick.PPM.DAO.Player.Hazena.Player();
                         player.setName(name);
                         player.setState(playerInfo.getState());
                         player.setAge(playerInfo.getAge());
                         player.setAgreement(playerInfo);
                         player.setDayToBeIll(playerInfo.getDaysToBeIll());
-                        Players.players.add(player);
+                        cz.bassnick.PPM.DAO.Player.Hazena.Players.players.add(player);
                     }
                 }
             }
@@ -175,15 +185,16 @@ public class Decode {
                             [5]=Sportovní výdrž
                                 split("/")[0] - parse
                             [6]=Brankářské schopnosti - parse
-                            [7]=Obranné schopnosti - parse
-                            [8]=Útočné schopnosti - parse
-                            [9]=Střelba - parse
+                            [7]=HvP
+                            [8]=Střelba - parse
+                            [9]=Blk - parse
                             [10]=Nahrávka - parse
                             [11]=Technika - parse
-                            [12]=Agresivita - parse
-                            [13]=Zkušenost - parse
-                            [14]=Celkové zkušenosti - parse
-                            [15]=Preferovaná strana
+                            [12]=Rychlost - parse
+                            [13]=Agresivita - parse
+                            [14]=Zkušenost - parse
+                            [15]=Celkové zkušenosti - parse
+                            [16]=Preferovaná strana
         */
 
 //                split \n \r
@@ -191,7 +202,7 @@ public class Decode {
             String[] lines = data.split("\n");
 //                    [0] header
 //                    [>0] data
-            BasicPlayerInfo playerInfo = new BasicPlayerInfo();
+            cz.bassnick.PPM.DAO.Player.Hazena.BasicPlayerInfo playerInfo = new cz.bassnick.PPM.DAO.Player.Hazena.BasicPlayerInfo();
             for (int i = 1; i < lines.length; i++) {
                 playerInfo = new BasicPlayerInfo();
 //                        split \t
@@ -236,29 +247,31 @@ public class Decode {
                 playerInfo.setSV(Integer.parseInt(items[5].trim().split("/")[0]));
 //                            [6]=Brankářské schopnosti - parse
                 playerInfo.setBra(Integer.parseInt(items[6].trim()));
-//                            [7]=Obranné schopnosti - parse
-                playerInfo.setObr(Integer.parseInt(items[7].trim()));
-//                            [8]=Útočné schopnosti - parse
-                playerInfo.setUto(Integer.parseInt(items[8].trim()));
-//                            [9]=Střelba - parse
-                playerInfo.setStr(Integer.parseInt(items[9].trim()));
+//                            [7]=HvP
+                playerInfo.setHvP(Integer.parseInt(items[7].trim()));
+//                            [8]=Střelba - parse
+                playerInfo.setStr(Integer.parseInt(items[8].trim()));
+//                            [9]=Blk - parse
+                playerInfo.setBlk(Integer.parseInt(items[9].trim()));
 //                            [10]=Nahrávka - parse
                 playerInfo.setNah(Integer.parseInt(items[10].trim()));
 //                            [11]=Technika - parse
                 playerInfo.setTec(Integer.parseInt(items[11].trim()));
-//                            [12]=Agresivita - parse
-                playerInfo.setAgr(Integer.parseInt(items[12].trim()));
-//                            [13]=Zkušenost - parse
-                playerInfo.setZku(Integer.parseInt(items[13].trim()));
-//                            [14]=Celkové zkušenosti - parse
-                playerInfo.setCZ(Integer.parseInt(items[14].trim()));
-//                            [15]=Preferovaná strana
-                playerInfo.setPreferredSide(items[15].trim());
+//                            [12]=Rychlost - parse
+                playerInfo.setRyc(Integer.parseInt(items[12].trim()));
+//                            [13]=Agresivita - parse
+                playerInfo.setAgr(Integer.parseInt(items[13].trim()));
+//                            [14]=Zkušenost - parse
+                playerInfo.setZku(Integer.parseInt(items[14].trim()));
+//                            [15]=Celkové zkušenosti - parse
+                playerInfo.setCZ(Integer.parseInt(items[15].trim()));
+//                            [16]=Preferovaná strana
+                playerInfo.setPrS(items[16].trim());
                 String name = playerInfo.getFirstname() + " " + playerInfo.getLastname();
                 boolean found = false;
-                for (int iPlayer = 0; iPlayer < Players.players.size(); iPlayer++) {
-                    if (name.equals(Players.players.get(iPlayer).getName())) {
-                        Player player = Players.players.get(iPlayer);
+                for (int iPlayer = 0; iPlayer < cz.bassnick.PPM.DAO.Player.Hazena.Players.players.size(); iPlayer++) {
+                    if (name.equals(cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer).getName())) {
+                        cz.bassnick.PPM.DAO.Player.Hazena.Player player = cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer);
                         player.setBasic(playerInfo);
                         player.setName(name);
                         player.setState(playerInfo.getState());
@@ -268,13 +281,13 @@ public class Decode {
                     }
                 }
                 if (!found) {
-                    Player player = new Player();
+                    cz.bassnick.PPM.DAO.Player.Hazena.Player player = new cz.bassnick.PPM.DAO.Player.Hazena.Player();
                     player.setName(name);
                     player.setState(playerInfo.getState());
                     player.setAge(playerInfo.getAge());
                     player.setBasic(playerInfo);
                     player.setDayToBeIll(playerInfo.getDaysToBeIll());
-                    Players.players.add(player);
+                    cz.bassnick.PPM.DAO.Player.Hazena.Players.players.add(player);
 
                 }
             }
@@ -286,7 +299,7 @@ public class Decode {
         return true;
     }
     public static boolean training(String data) {
-        TrainingPlayerInfo playerInfo = new TrainingPlayerInfo();
+        cz.bassnick.PPM.DAO.Player.Hazena.TrainingPlayerInfo playerInfo = new cz.bassnick.PPM.DAO.Player.Hazena.TrainingPlayerInfo();
         try {
             //split \n \r
             data = data.replaceAll("\r", "");
@@ -352,44 +365,45 @@ public class Decode {
 //                                  else if notother '\t' then 
                 if (items.length > 6) {
                     playerInfo.setDynBra(0);
-                    playerInfo.setDynObr(0);
-                    playerInfo.setDynUto(0);
+                    playerInfo.setDynHvP(0);
                     playerInfo.setDynStr(0);
+                    playerInfo.setDynBlk(0);
                     playerInfo.setDynNah(0);
                     playerInfo.setDynTec(0);
+                    playerInfo.setDynRyc(0);
                     playerInfo.setDynAgr(0);
 
 //                                [6]=
 //                                    last 2 digits: Kvalita obranné schopnosti - parse
 //                                    before: Obranné schopnosti - parse
                     String trimmed6 = items[6].trim();
-                    int lenObr = trimmed6.length();
-                    String QObr = trimmed6.substring(lenObr - 2, lenObr);
-                    String Obr = trimmed6.substring(0, lenObr - 2);
-                    playerInfo.setQObr(Integer.parseInt(QObr));
-                    playerInfo.setObr(Integer.parseInt(Obr));
+                    int lenHvP = trimmed6.length();
+                    String QHvP = trimmed6.substring(lenHvP - 2, lenHvP);
+                    String HvP = trimmed6.substring(0, lenHvP - 2);
+                    playerInfo.setQHvP(Integer.parseInt(QHvP));
+                    playerInfo.setHvP(Integer.parseInt(HvP));
 //                    
 //
 //                                [7]=
 //                                    last 2 digits: Kvalita útočné schopnosti - parse
 //                                    before: Útočné  schopnosti - parse
                     String trimmed7 = items[7].trim();
-                    int lenUto = trimmed7.length();
-                    String QUto = trimmed7.substring(lenUto - 2, lenUto);
-                    String Uto = trimmed7.substring(0, lenUto - 2);
-                    playerInfo.setQUto(Integer.parseInt(QUto));
-                    playerInfo.setUto(Integer.parseInt(Uto));
+                    int lenStr = trimmed7.length();
+                    String QStr = trimmed7.substring(lenStr - 2, lenStr);
+                    String Str = trimmed7.substring(0, lenStr - 2);
+                    playerInfo.setQStr(Integer.parseInt(QStr));
+                    playerInfo.setStr(Integer.parseInt(Str));
 
 //                                [8]=
 //                                    last 2 digits: Kvalita střelba - parse
 //                                    before: Střelba - parse
 
                     String trimmed8 = items[8].trim();
-                    int lenStr = trimmed8.length();
-                    String QStr = trimmed8.substring(lenStr - 2, lenStr);
-                    String Str = trimmed8.substring(0, lenStr - 2);
-                    playerInfo.setQStr(Integer.parseInt(QStr));
-                    playerInfo.setStr(Integer.parseInt(Str));
+                    int lenBlk = trimmed8.length();
+                    String QBlk = trimmed8.substring(lenBlk - 2, lenBlk);
+                    String Blk = trimmed8.substring(0, lenBlk - 2);
+                    playerInfo.setQBlk(Integer.parseInt(QBlk));
+                    playerInfo.setBlk(Integer.parseInt(Blk));
 //                    
 //
 //                                [9]=
@@ -414,13 +428,26 @@ public class Decode {
                     playerInfo.setQTec(Integer.parseInt(QTec));
                     playerInfo.setTec(Integer.parseInt(Tec));
 
-//                    
+//
 //
 //                                [11]=
 //                                    last 2 digits: Kvalita agresivita - parse
 //                                    before: Agresivita - parse
+//
+                    String trimmed11 = items[12].trim();
+                    int lenRyc = trimmed11.length();
+                    String QRyc = trimmed11.substring(lenRyc - 2, lenRyc);
+                    String Ryc = trimmed11.substring(0, lenRyc - 2);
+                    playerInfo.setQRyc(Integer.parseInt(QRyc));
+                    playerInfo.setRyc(Integer.parseInt(Ryc));
+
+                    //
+//
+//                                [12]=
+//                                    last 2 digits: Kvalita agresivita - parse
+//                                    before: Agresivita - parse
 //                    
-                    String trimmed11 = items[11].trim();
+                    String trimmed12 = items[12].trim();
                     int lenAgr = trimmed11.length();
                     String QAgr = trimmed11.substring(lenAgr - 2, lenAgr);
                     String Agr = trimmed11.substring(0, lenAgr - 2);
@@ -441,28 +468,15 @@ public class Decode {
                     i++;
                     String trimmed = lines[i].trim().replace("\t", "");
                     int ln = trimmed.length();
-                    String QObr = trimmed.substring(ln - 2, ln);
-                    String Obr = trimmed.substring(0, ln- 2);
-                    playerInfo.setQObr(Integer.parseInt(QObr));
-                    playerInfo.setObr(Integer.parseInt(Obr));
+                    String QHvP = trimmed.substring(ln - 2, ln);
+                    String HvP = trimmed.substring(0, ln- 2);
+                    playerInfo.setQHvP(Integer.parseInt(QHvP));
+                    playerInfo.setHvP(Integer.parseInt(HvP));
                     i++;
                     if (lines[i] == null || lines[i].trim().length() == 0)
-                        playerInfo.setDynObr(0);
+                        playerInfo.setDynHvP(0);
                     else
-                        playerInfo.setDynObr(Integer.parseInt(lines[i].trim()));
-
-                    i++;
-                    trimmed = lines[i].trim().replace("\t", "");
-                    ln = trimmed.length();
-                    String QUto = trimmed.substring(ln - 2, ln);
-                    String Uto = trimmed.substring(0, ln- 2);
-                    playerInfo.setQUto(Integer.parseInt(QUto));
-                    playerInfo.setUto(Integer.parseInt(Uto));
-                    i++;
-                    if (lines[i] == null || lines[i].trim().length() == 0)
-                        playerInfo.setDynUto(0);
-                    else
-                        playerInfo.setDynUto(Integer.parseInt(lines[i].trim()));
+                        playerInfo.setDynHvP(Integer.parseInt(lines[i].trim()));
 
                     i++;
                     trimmed = lines[i].trim().replace("\t", "");
@@ -476,6 +490,19 @@ public class Decode {
                         playerInfo.setDynStr(0);
                     else
                         playerInfo.setDynStr(Integer.parseInt(lines[i].trim()));
+
+                    i++;
+                    trimmed = lines[i].trim().replace("\t", "");
+                    ln = trimmed.length();
+                    String QBlk = trimmed.substring(ln - 2, ln);
+                    String Blk = trimmed.substring(0, ln- 2);
+                    playerInfo.setQBlk(Integer.parseInt(QBlk));
+                    playerInfo.setBlk(Integer.parseInt(Blk));
+                    i++;
+                    if (lines[i] == null || lines[i].trim().length() == 0)
+                        playerInfo.setDynBlk(0);
+                    else
+                        playerInfo.setDynBlk(Integer.parseInt(lines[i].trim()));
 
                     i++;
                     trimmed = lines[i].trim().replace("\t", "");
@@ -502,6 +529,20 @@ public class Decode {
                         playerInfo.setDynTec(0);
                     else
                         playerInfo.setDynTec(Integer.parseInt(lines[i].trim()));
+
+                    i++;
+                    trimmed = lines[i].trim().replace("\t", "");
+                    ln = trimmed.length();
+                    String QRyc = trimmed.substring(ln - 2, ln);
+                    String Ryc = trimmed.substring(0, ln- 2);
+                    playerInfo.setQAgr(Integer.parseInt(QRyc));
+                    playerInfo.setAgr(Integer.parseInt(Ryc));
+                    i++;
+                    if (lines[i] == null || lines[i].trim().length() == 0)
+                        playerInfo.setDynRyc(0);
+                    else
+                        playerInfo.setDynRyc(Integer.parseInt(lines[i].trim()));
+
 
                     i++;
                     trimmed = lines[i].trim().replace("\t", "");
@@ -542,9 +583,9 @@ public class Decode {
                 String name = playerInfo.getFirstname() + " " + playerInfo.getLastname();
                 boolean found = false;
 
-                for (int iPlayer = 0; iPlayer < Players.players.size(); iPlayer++) {
-                    if (name.equals(Players.players.get(iPlayer).getName())) {
-                        Player player = Players.players.get(iPlayer);
+                for (int iPlayer = 0; iPlayer < cz.bassnick.PPM.DAO.Player.Hazena.Players.players.size(); iPlayer++) {
+                    if (name.equals(cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer).getName())) {
+                        cz.bassnick.PPM.DAO.Player.Hazena.Player player = cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer);
                         player.setTraining(playerInfo);
                         player.setName(name);
                         player.setState(playerInfo.getState());
@@ -554,13 +595,13 @@ public class Decode {
                     }
                 }
                 if (!found) {
-                    Player player = new Player();
+                    cz.bassnick.PPM.DAO.Player.Hazena.Player player = new cz.bassnick.PPM.DAO.Player.Hazena.Player();
                     player.setName(name);
                     player.setState(playerInfo.getState());
                     player.setAge(playerInfo.getAge());
                     player.setTraining(playerInfo);
                     player.setDayToBeIll(playerInfo.getDaysToBeIll());
-                    Players.players.add(player);
+                    cz.bassnick.PPM.DAO.Player.Hazena.Players.players.add(player);
 
                 }
             }
@@ -572,7 +613,7 @@ public class Decode {
         return true;
     }
     public static boolean statsField(String data) {
-        StatsFieldInfo playerInfo = new StatsFieldInfo();
+        cz.bassnick.PPM.DAO.Player.Hazena.StatsFieldInfo playerInfo = new cz.bassnick.PPM.DAO.Player.Hazena.StatsFieldInfo();
         try {
             /*
                 split \n \r
@@ -588,18 +629,18 @@ public class Decode {
                                 [1]=GP  = Pocet zapasu
                                 [2]=G   = Goly
                                 [3]=A   = Asistence
-                                [4]=TP  = Kanadske body
-                                [5]=+/-
-                                [6]=PIM = Trestnych minut
-                                [7]=DS  = Kanadske bodovani obrancu
-                                [8]=PPG = golu v presilovce
-                                [9]=SHG = golu ve vlastnim oslabeni
-                                [10]=S  = pocet strel
-                                [11]=S% = uspesnost strelby
-                                [12]=G/G = golu na zapas
-                                [13]=A/G = asistenci na zapas
-                                [14]=P/G = Kanadske body na zapas
-                                [15]=Hv  = Hvezda zapasu
+                                [4]=TP  = G + A
+                                [5]=S   =
+                                [6]=S%  =
+                                [7]=G7m =
+                                [8]=S7m =
+                                [9]=TO  =
+                                [10]=ST =
+                                [11]=BS =
+                                [12]=YC =
+                                [13]=Min2 =
+                                [14]=RC  =
+                                [15]=Hv  = Hvezda vecera
                                 [16]=HK  = Hvezda kola
         */
 
@@ -650,48 +691,48 @@ public class Decode {
             playerInfo.setA(Integer.parseInt(items[3].trim()));
 //                    [4] = TP = Kanadske body
             playerInfo.setTP(Integer.parseInt(items[4].trim()));
-//                    [5] = + / -
-            playerInfo.setPlusMinus(Integer.parseInt(items[5].trim()));
-//                    [6]=PIM = Trestnych minut
-            playerInfo.setPIM(Integer.parseInt(items[6].trim()));
-//                    [7] = DS = Kanadske bodovani obrancu
-            playerInfo.setDS(Integer.parseInt(items[7].trim()));
-//                    [8]=PPG = golu v presilovce
-            playerInfo.setPPG(Integer.parseInt(items[8].trim()));
-//                    [9]=SHG = golu ve vlastnim oslabeni
-            playerInfo.setSHG(Integer.parseInt(items[9].trim()));
-//                    [10] = S = pocet strel
-            playerInfo.setS(Integer.parseInt(items[10].trim()));
-//                    [11] = S % = uspesnost strelby
-            playerInfo.setSPercentage(Float.parseFloat(items[11].trim()));
-//                    [12] = G / G = golu na zapas
-            playerInfo.setGG(Float.parseFloat(items[12].trim()));
-//                    [13]=A / G = asistenci na zapas
-            playerInfo.setAG(Float.parseFloat(items[13].trim()));
-//                    [14]=P / G = Kanadske body na zapas
-            playerInfo.setPG(Float.parseFloat(items[14].trim()));
-//                    [15] = Hv = Hvezda zapasu
+//                    [5] =
+            playerInfo.setS(Integer.parseInt(items[5].trim()));
+//                    [6]=
+            playerInfo.setSPercentage(Float.parseFloat(items[6].trim()));
+//                    [7] =
+            playerInfo.setG7m(Integer.parseInt(items[7].trim()));
+//                    [8]=
+            playerInfo.setS7m(Integer.parseInt(items[8].trim()));
+//                    [9]=
+            playerInfo.setTO(Integer.parseInt(items[9].trim()));
+//                    [10] =
+            playerInfo.setST(Integer.parseInt(items[10].trim()));
+//                    [11] =
+            playerInfo.setBS(Integer.parseInt(items[11].trim()));
+//                    [12] =
+            playerInfo.setYC(Integer.parseInt(items[12].trim()));
+//                    [13]=
+            playerInfo.setMin2(Integer.parseInt(items[13].trim()));
+//                    [14]=
+            playerInfo.setRC(Integer.parseInt(items[14].trim()));
+//                    [15] =
             playerInfo.setHv(Integer.parseInt(items[15].trim()));
-//                    [16] = HK = Hvezda kola
+//                    [16] =
             playerInfo.setHK(Integer.parseInt(items[16].trim()));
 
             String name = playerInfo.getFirstname() + " " + playerInfo.getLastname();
             boolean found = false;
 
-            for (int iPlayer = 0; iPlayer < Players.players.size(); iPlayer++) {
-                if (name.equals(Players.players.get(iPlayer).getName())) {
-                    Player player = Players.players.get(iPlayer);
-                    player.setStatField(playerInfo);
+            for (int iPlayer = 0; iPlayer < cz.bassnick.PPM.DAO.Player.Hazena.Players.players.size(); iPlayer++) {
+                if (name.equals(cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer).getName())) {
+                    cz.bassnick.PPM.DAO.Player.Hazena.Player player = cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer);
+                    player.setFieldStats(playerInfo);
                     found = true;
                 }
             }
             if (!found) {
-                Player player = new Player();
+                cz.bassnick.PPM.DAO.Player.Hazena.Player player = new cz.bassnick.PPM.DAO.Player.Hazena.Player();
                 player.setName(name);
                 player.setState(playerInfo.getState());
-                player.setStatField(playerInfo);
+                player.setFieldStats(playerInfo);
                 player.setDayToBeIll(playerInfo.getDaysToBeIll());
-                Players.players.add(player);
+                cz.bassnick.PPM.DAO.Player.Hazena.Players.players.add(player);
 
             }
         }
@@ -703,7 +744,7 @@ public class Decode {
         return true;
     }
     public static boolean statsGoalie(String data) {
-        StatsGoalieInfo playerInfo = new StatsGoalieInfo();
+        StatsPlayerGoalieInfo playerInfo = new StatsPlayerGoalieInfo();
         try {
             /*
                 split \n \r
@@ -716,17 +757,16 @@ public class Decode {
                                         < (last-1)=Stat
                                         (last-1)=Krestni jmeno
                                         last=Prijmeni
-                                [1]=GP  = Pocet zapasu
-                                [2]=TOI = Time on Ice
-                                [3]=SA  = Shots Allowed
-                                [4]=GA  = Goals Allowed
-                                [5]=GAA = Goals Allowed Average
-                                [6]=Sv% = Úspěšnost zákroků
-                                [7]=SO  = Shot outs
-                                [8]=A   = Asistence
-                                [9]=TP  = Kanadské body
-                                [10]=Hv = Hvězda zápasu
-                                [11]=HK = Hvězda kola
+                                [1]=MP  = Pocet zapasu
+                                [2]=SV =
+                                [3]=SA  =
+                                [4]=GA  =
+                                [5]=Sv% =
+                                [6]=7mSV =
+                                [7]=7mSA  =
+                                [8]=7mGA   =
+                                [9]=7m%  =
+
         */
 
 
@@ -736,7 +776,7 @@ public class Decode {
 //                    [0] header
 //                    [>0] data
             for (int i = 1; i < lines.length; i++) {
-                playerInfo = new StatsGoalieInfo();
+                playerInfo = new StatsPlayerGoalieInfo();
 //            split \t
                 String[] items = lines[i].split("\t");
                 //[0]:
@@ -768,44 +808,40 @@ public class Decode {
                 playerInfo.setLastname(infos[len - 1]);
 
 
-//                    [1]=GP = Pocet zapasu
-                playerInfo.setGP(Integer.parseInt(items[1].trim()));
-//                    [2]=TOI = Time on Ice
-                playerInfo.setTOI(Integer.parseInt(items[2].trim()));
-//                    [3]=SA  = Shots Allowed
+//                    [1]=
+                playerInfo.setMP(Integer.parseInt(items[1].trim()));
+//                    [2]=
+                playerInfo.setSV(Integer.parseInt(items[2].trim()));
+//                    [3]=
                 playerInfo.setSA(Integer.parseInt(items[3].trim()));
-//                    [4]=GA  = Goals Allowed
+//                    [4]=
                 playerInfo.setGA(Integer.parseInt(items[4].trim()));
-//                    [5]=GAA = Goals Allowed Average
-                playerInfo.setGAA(Float.parseFloat(items[5].trim()));
-//                    [6]=Sv% = Úspěšnost zákroků
-                playerInfo.setSvPercentage(Float.parseFloat(items[6].trim()));
-//                    [7]=SO  = Shot outs
-                playerInfo.setSO(Integer.parseInt(items[7].trim()));
-//                    [8]=A   = Asistence
-                playerInfo.setA(Integer.parseInt(items[8].trim()));
-//                    [9]=TP  = Kanadské body
-                playerInfo.setTP(Integer.parseInt(items[9].trim()));
-//                    [10]=Hv = Hvězda zápasu
-                playerInfo.setHv(Integer.parseInt(items[10].trim()));
-//                    [11]=HK = Hvězda kola
-                playerInfo.setHK(Integer.parseInt(items[11].trim()));
+//                    [5]=
+                playerInfo.setSvPercentage(Float.parseFloat(items[5].trim()));
+//                    [6]=
+                playerInfo.setSV7m(Integer.parseInt(items[6].trim()));
+//                    [7]=
+                playerInfo.setSA7m(Integer.parseInt(items[7].trim()));
+//                    [8]=
+                playerInfo.setGA7m(Integer.parseInt(items[8].trim()));
+//                    [9]=
+                playerInfo.setM7Percentage(Integer.parseInt(items[9].trim()));
 
                 String name = playerInfo.getFirstname() + " " + playerInfo.getLastname();
                 boolean found = false;
 
-                for (int iPlayer = 0; iPlayer < Players.players.size(); iPlayer++) {
-                    if (name.equals(Players.players.get(iPlayer).getName())) {
-                        Player player = Players.players.get(iPlayer);
-                        player.setStatGoalie(playerInfo);
+                for (int iPlayer = 0; iPlayer < cz.bassnick.PPM.DAO.Player.Hazena.Players.players.size(); iPlayer++) {
+                    if (name.equals(cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer).getName())) {
+                        cz.bassnick.PPM.DAO.Player.Hazena.Player player = cz.bassnick.PPM.DAO.Player.Hazena.Players.players.get(iPlayer);
+                        player.setGoalieStats(playerInfo);
                         found = true;
                     }
                 }
                 if (!found) {
-                    Player player = new Player();
+                    cz.bassnick.PPM.DAO.Player.Hazena.Player player = new Player();
                     player.setName(name);
                     player.setState(playerInfo.getState());
-                    player.setStatGoalie(playerInfo);
+                    player.setGoalieStats(playerInfo);
                     player.setDayToBeIll(playerInfo.getDaysToBeIll());
                     Players.players.add(player);
 

@@ -9,6 +9,7 @@ public class InspectPlayersPPM {
     private JButton btnFotbal;
     private JButton btnBasket;
     private JPanel jPanel;
+    private JButton btnHazena;
 
     public InspectPlayersPPM() {
         btnHokej.addActionListener(new ActionListener() {
@@ -56,7 +57,24 @@ public class InspectPlayersPPM {
 
             }
         });
+
+        btnHazena.addActionListener(new ActionListener() {
+                                                @Override
+                                                public void actionPerformed(ActionEvent e) {
+                                                    HandballScreen fs = new HandballScreen();
+
+                                                    JFrame frame = new JFrame("HandballScreen");
+
+                                                    JPanel jp = fs.jPanel;
+                                                    frame.setContentPane(jp);
+                                                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                                    frame.pack();
+                                                    frame.setVisible(true);
+
+                                                }
+                                            });
     }
+
     public static void main(String[] args) {
 
         InspectPlayersPPM ppm = new InspectPlayersPPM();
@@ -72,4 +90,6 @@ public class InspectPlayersPPM {
         frame.pack();
         frame.setVisible(true);
     }
+
+
 }
