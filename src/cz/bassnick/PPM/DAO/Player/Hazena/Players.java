@@ -354,6 +354,7 @@ public class Players {
         PrintWriter out = null;
         try {
             String csv = exportToCSV();
+            csv = csv.replaceAll("[.]", ",");
             Files.write(Paths.get("./dataHazenaPPM.csv"), csv.getBytes());
         } catch (IOException e) {
             e.printStackTrace();

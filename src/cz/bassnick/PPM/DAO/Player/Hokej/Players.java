@@ -345,6 +345,7 @@ public class Players {
         PrintWriter out = null;
         try {
             String csv = exportToCSV();
+            csv = csv.replaceAll("[.]", ",");
             Files.write(Paths.get("./dataHokejPPM.csv"), csv.getBytes());
         } catch (IOException e) {
             e.printStackTrace();

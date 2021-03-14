@@ -421,6 +421,7 @@ public class Players {
         PrintWriter out = null;
         try {
             String csv = exportToCSV();
+            csv = csv.replaceAll("[.]", ",");
             Files.write(Paths.get("./dataBasketPPM.csv"), csv.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
